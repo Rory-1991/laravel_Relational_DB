@@ -16,7 +16,7 @@
     @endphp
 
     <div class="container mt-3">
-        <h2>Student Table123 </h2>
+        <h2>Student Table</h2>
         <p>The .table-bordered class adds borders on all sides of the table and the cells:</p>
         <p>
             <a href="{{ route('students.create') }}" class="btn btn-success">add</a>
@@ -32,19 +32,25 @@
                     <th width="10%">NAME</th>
                     <th width="20%">MOBILE</th>
                     <th width="20%">PHONE</th>
+                    <th width="20%">HOBBY</th>
                     <th>OPT</th>
                 </tr>
             </thead>
             <tbody>
                 @php
-                    // dd($data)    ;
+                    // dd($data);
                 @endphp
                 @foreach ($data as $value)
                     <tr>
                         <td>{{ $value->id }}</td>
                         <td>{{ $value->name }}</td>
                         <td>{{ $value->mobile }}</td>
-                        <td>{{ $value->phone->phone ?? '' }}</td>
+                        <td>
+                            {{ $value->phoneRelation->id ?? '' }}
+                            {{-- {{ $value->phoneRelation->student_id ?? '' }} --}}
+                            {{ $value->phoneRelation->phone ?? '' }}
+                        </td>
+                        <td>{{ $value->hobbiesRelation[0]->name ?? '' }}</td>
                         <td>
                             <form action="{{ route('students.destroy', ['student' => $value->id]) }}" method="post">
                                 @csrf

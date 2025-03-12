@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Student;
 use App\Models\Phone;
+use App\Models\Hobby;
+
 
 class StudentController extends Controller
 {
@@ -20,9 +22,9 @@ class StudentController extends Controller
         // $data = Student::get();
 
         // $phone = User::find(1)->phone;
-        $data = Student::with('phone')->get();
-        // dd($data[0]->phone);
-        // dd($data);
+        $data = Student::with('phoneRelation')->with('hobbiesRelation')->get();
+        // dd($data[0]->phoneRelation);
+        // dd($data[0]->hobbiesRelation[0]->name);
 
         return view('student.index', ['data' => $data]);
     }
@@ -74,7 +76,7 @@ class StudentController extends Controller
      */
     public function edit(string $id)
     {
-        $data = Student::where('id', $id)->with('phone')->first();
+        $data = Student::where('id', $id)->with('phoneRelation')->first();
 
         return view('student.edit', ['data' => $data]);
     }
