@@ -2,29 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Teacher;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Models\Student;
 
-class StudentController extends Controller
+class TeacherController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // dd('student index ok');
         // $users = DB::table('users')->get();
-        // $data = DB::table('students')->get();
-        // $data = Student::get();
-        
-        
-        // $phone = User::find(1)->phone;
-        $data = Student::with('phone')->get();
-        // dd($data[0]->phone);
-        dd($data);
+        // $data = DB::table('teachers')->get();
+        $data = Teacher::get();
+        // dd($data);
+        // dd($data);
 
-        return view('student.index', ['data' => $data]);
+        return view('teacher.index', ['data' => $data]);
     }
 
     /**
@@ -32,8 +26,8 @@ class StudentController extends Controller
      */
     public function create()
     {
-        // dd('student controller create');
-        return view('student.create');
+        // dd('teacher controller create');
+        return view('teacher.create');
     }
 
     /**
@@ -45,7 +39,7 @@ class StudentController extends Controller
         $input = $request->except('_token');
         // dd($input);
 
-        $data = new Student;
+        $data = new Teacher;
 
         // $data->name = $request->name;
         // $data->mobile = $request->mobile;
@@ -55,8 +49,8 @@ class StudentController extends Controller
 
         $data->save();
 
-        return redirect()->route('students.index');
-        // return redirect('/students');
+        return redirect()->route('teachers.index');
+        // return redirect('/teachers');
     }
 
     /**
@@ -72,16 +66,16 @@ class StudentController extends Controller
      */
     public function edit(string $id)
     {
-        // $url = route('students.edit', ['student' => $id]);
+        // $url = route('teachers.edit', ['teacher' => $id]);
         // dd($url);
         // dd("hello edit $id");
 
         // get fetchAll
         // first fetch
-        $data = Student::where('id', $id)->first();
+        $data = Teacher::where('id', $id)->first();
         // dd($data);
 
-        return view('student.edit', ['data' => $data]);
+        return view('teacher.edit', ['data' => $data]);
     }
 
     /**
@@ -90,8 +84,8 @@ class StudentController extends Controller
     public function update(Request $request, string $id)
     {
         $input = $request->except('_token', '_method');
-        $data = Student::where('id', $id)->first();
-        // $data = Student::find($id);
+        $data = Teacher::where('id', $id)->first();
+        // $data = Teacher::find($id);
 
         // "name" => "cat"
         // "mobile" => "0933"
@@ -100,7 +94,7 @@ class StudentController extends Controller
         $data->mobile = $input['mobile'];
         $data->save();
 
-        return redirect()->route('students.index');
+        return redirect()->route('teachers.index');
     }
 
     /**
@@ -109,14 +103,14 @@ class StudentController extends Controller
     public function destroy(string $id)
     {
         // dd("hello destroy $id");
-        $data = Student::where('id', $id)->first();
+        $data = Teacher::where('id', $id)->first();
         $data->delete();
-        return redirect()->route('students.index');
+        return redirect()->route('teachers.index');
     }
 
     public function excel()
     {
-        dd('hello student controller excel');
+        dd('hello teacher controller excel');
     }
 
     public function sayHello()

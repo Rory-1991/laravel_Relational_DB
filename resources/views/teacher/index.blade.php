@@ -16,10 +16,10 @@
     @endphp
 
     <div class="container mt-3">
-        <h2>Bordered Table123 </h2>
+        <h2>Teacher Table123 </h2>
         <p>The .table-bordered class adds borders on all sides of the table and the cells:</p>
         <p>
-            <a href="{{ route('students.create') }}" class="btn btn-success">add</a>
+            <a href="{{ route('teachers.create') }}" class="btn btn-success">add</a>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
                 add modal
             </button>
@@ -44,10 +44,10 @@
                         <td>{{ $value->name }}</td>
                         <td>{{ $value->mobile }}</td>
                         <td>
-                            <form action="{{ route('students.destroy', ['student' => $value->id]) }}" method="post">
+                            <form action="{{ route('teachers.destroy', ['teacher' => $value->id]) }}" method="post">
                                 @csrf
                                 @method('delete')
-                                <a href="{{ route('students.edit', ['student' => $value->id]) }}"
+                                <a href="{{ route('teachers.edit', ['teacher' => $value->id]) }}"
                                     class="btn btn-warning">edit</a>
                                 <button type="submit" class="btn btn-danger">del</button>
                             </form>
@@ -64,7 +64,7 @@
     <div class="modal" id="myModal">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('students.store') }}" method="post">
+                <form action="{{ route('teachers.store') }}" method="post">
 
                     <!-- Modal Header -->
                     <div class="modal-header">
@@ -76,7 +76,7 @@
                     <div class="modal-body">
                         <div class="container mt-3">
 
-                            {{-- <form action="{{ //route('students.store') }}" method="post"> --}}
+                            {{-- <form action="{{ //route('teachers.store') }}" method="post"> --}}
                             {{-- csrf --}}
                             @csrf
 
