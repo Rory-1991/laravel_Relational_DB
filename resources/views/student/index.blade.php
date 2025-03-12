@@ -31,6 +31,7 @@
                     <th width="5%">ID</th>
                     <th width="10%">NAME</th>
                     <th width="20%">MOBILE</th>
+                    <th width="20%">PHONE</th>
                     <th>OPT</th>
                 </tr>
             </thead>
@@ -43,6 +44,7 @@
                         <td>{{ $value->id }}</td>
                         <td>{{ $value->name }}</td>
                         <td>{{ $value->mobile }}</td>
+                        <td>{{ $value->phone->phone ?? '' }}</td>
                         <td>
                             <form action="{{ route('students.destroy', ['student' => $value->id]) }}" method="post">
                                 @csrf
