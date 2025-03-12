@@ -7,11 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Hobby extends Model
 {
-     /**
-     * Get the post that owns the comment.
-     */
     public function studentRelation(): BelongsTo
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(Hobby::class);
     }
 }

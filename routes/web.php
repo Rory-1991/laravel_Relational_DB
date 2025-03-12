@@ -7,7 +7,7 @@ use App\Http\Controllers\CarController;
 
 Route::get('/', function () {
     return redirect()->route('students.index');
-    // return redirect()->route('teacher.index');
+    // return redirect()->route('teachers.index');
     // return redirect()->route('cars.index');
 });
 

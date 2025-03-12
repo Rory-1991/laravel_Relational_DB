@@ -8,7 +8,6 @@ use App\Models\Student;
 use App\Models\Phone;
 use App\Models\Hobby;
 
-
 class StudentController extends Controller
 {
     /**
@@ -25,6 +24,27 @@ class StudentController extends Controller
         $data = Student::with('phoneRelation')->with('hobbiesRelation')->get();
         // dd($data[0]->phoneRelation);
         // dd($data[0]->hobbiesRelation[0]->name);
+        // dd($data[0]);
+
+        // $data foreach
+        foreach ($data as $key1 => $value1) {
+            $tmpArr = [];
+            foreach ($value1->hobbiesRelation as $key2 => $value2) {
+                array_push($tmpArr, $value2->name);
+            }
+            $tmpString = implode(',', $tmpArr);
+            // $data[$key1]['hobbies'] = $tmpString;
+            $data[$key1]['hobbyString'] = $tmpString;
+        }
+
+        // dd($data);
+
+        // dd($tmpString);
+
+
+        // dd($tmpArr);
+
+        // $myArr = ['s14-01','s14-02'];
 
         return view('student.index', ['data' => $data]);
     }
@@ -47,17 +67,29 @@ class StudentController extends Controller
         $input = $request->except('_token');
         // dd($input);
 
+        $hobbyArr = explode(",", $input['hobbies']);
+        // dd($hobbyArr);
+
         // 主表
         $data = new Student;
         $data->name = $input['name'];
         $data->mobile = $input['mobile'];
         $data->save();
 
-        // 子表
+        // 子表 phones
         $item = new Phone;
         $item->student_id = $data->id;
         $item->phone = $input['phone'];
         $item->save();
+
+        // 子表 hobbies
+        foreach ($hobbyArr as $key => $value) {
+            $hobby = new Hobby;
+            $hobby->student_id = $data->id;
+            $hobby->name = $value;
+            $hobby->save();
+        }
+
 
 
         return redirect()->route('students.index');
@@ -76,7 +108,14 @@ class StudentController extends Controller
      */
     public function edit(string $id)
     {
-        $data = Student::where('id', $id)->with('phoneRelation')->first();
+        $data = Student::where('id', $id)->with('phoneRelation')->with('hobbiesRelation')->first();
+        $tmpArr = [];
+        foreach ($data->hobbiesRelation as $key => $value) {
+            array_push($tmpArr, $value->name);
+        }
+        $tmpString = implode(',', $tmpArr);
+        // $data[$key1]['hobbies'] = $tmpString;
+        $data['hobbyString'] = $tmpString;
 
         return view('student.edit', ['data' => $data]);
     }
@@ -88,6 +127,8 @@ class StudentController extends Controller
     {
         $input = $request->except('_token', '_method');
 
+        $hobbyArr = explode(",", $input['hobbies']);
+
         //主表
         $data = Student::where('id', $id)->first();
         $data->name = $input['name'];
@@ -97,11 +138,22 @@ class StudentController extends Controller
         //子表
         // 刪除子表
         Phone::where('student_id', $id)->delete();
-        // 新增子表
+        Hobby::where('student_id', $id)->delete();
+        
+        // 新增子表 phones
         $item = new Phone;
         $item->student_id = $data->id;
         $item->phone = $input['phone'];
         $item->save();
+
+        // 新增子表 hobbies
+        foreach ($hobbyArr as $key => $value) {
+            $hobby = new Hobby;
+            $hobby->student_id = $data->id;
+            $hobby->name = $value;
+            $hobby->save();
+        }
+
 
 
         return redirect()->route('students.index');
@@ -114,6 +166,7 @@ class StudentController extends Controller
     {
         // 刪除子表
         Phone::where('student_id', $id)->delete();
+        Hobby::where('student_id', $id)->delete();
         // 刪除主表
         Student::where('id', $id)->delete();
 
