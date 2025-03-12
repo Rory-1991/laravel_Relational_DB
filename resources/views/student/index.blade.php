@@ -16,7 +16,7 @@
     @endphp
 
     <div class="container mt-3">
-        <h2>Bordered Table123 </h2>
+        <h2>Student Table123 </h2>
         <p>The .table-bordered class adds borders on all sides of the table and the cells:</p>
         <p>
             <a href="{{ route('students.create') }}" class="btn btn-success">add</a>
